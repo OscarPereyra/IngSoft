@@ -148,8 +148,8 @@ public class ventana {
 	private void registrar (String nombre,String precio,String codigo,String cantidad,String categoria) {
 		Producto uno = new Producto(codigo,nombre,categoria,Double.parseDouble(precio),Integer.parseInt(cantidad));
 		
-		String query = " insert into producto (idProducto,nombre,cantidad,precio,categoria)" + " values (" + codigo + "," + nombre + "," + cantidad + "," + precio + "," + categoria + ";";
-		
+		String query = " insert into producto (idProducto,nombre,cantidad,precio,categoria)" + " values (" + uno.getCodigo() + "," + uno.getNombre() + "," + uno.getCantidad() + "," + uno.getPrecio() + "," + uno.getCategoria() + ");";
+		System.out.println(query);
 		con.prueba(query);
 	}
 }
