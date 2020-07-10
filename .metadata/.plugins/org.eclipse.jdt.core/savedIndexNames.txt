@@ -16,6 +16,5 @@ INDEX VERSION 1.131+C:\Ing Soft\IngSoft\.metadata\.plugins\org.eclipse.jdt.core
 1703361771.index
 146530134.index
 1180489742.index
-3606145055.index
 2707737922.index
 1955934203.index
