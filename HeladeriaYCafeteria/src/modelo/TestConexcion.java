@@ -16,10 +16,7 @@ public class TestConexcion {
 			
 		try {
 			cn = conexion.conectar();
-			stm = cn.createStatement();
-			
-			 //cn.prepareStatement(query);
-			
+			stm = cn.createStatement();			
 			stm.executeUpdate(query);
 			//rs = stm.executeQuery(query);
 			/*while (rs.next()) {
