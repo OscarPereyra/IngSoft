@@ -114,8 +114,8 @@ public class ventana {
 		frmHeladeriaYConfiteria.getContentPane().add(textCodigo);
 		textCodigo.setColumns(10);
 		
-		JLabel lblCodigo = new JLabel("Codigo");
-		lblCodigo.setBounds(10, 114, 46, 14);
+		JLabel lblCodigo = new JLabel("Codigo:");
+		lblCodigo.setBounds(10, 111, 75, 20);
 		frmHeladeriaYConfiteria.getContentPane().add(lblCodigo);
 	}
 	
