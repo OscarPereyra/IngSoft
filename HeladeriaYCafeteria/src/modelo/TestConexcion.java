@@ -4,8 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.mysql.jdbc.PreparedStatement;
+
 public class TestConexcion {
-	public static void prueba(String query) {
+	public void prueba(String query) {
 		Conexion conexion = new Conexion();
 		Connection cn = null;
 		Statement stm = null;
@@ -15,6 +17,9 @@ public class TestConexcion {
 		try {
 			cn = conexion.conectar();
 			stm = cn.createStatement();
+			
+			 //cn.prepareStatement(query);
+			
 			stm.executeUpdate(query);
 			//rs = stm.executeQuery(query);
 			/*while (rs.next()) {

@@ -31,9 +31,6 @@ public class ventana {
 	private JTextField textCodigo;
 	private TestConexcion con = new TestConexcion();
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -47,16 +44,10 @@ public class ventana {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public ventana() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frmHeladeriaYConfiteria = new JFrame();
 		frmHeladeriaYConfiteria.setTitle("Heladeria y confiteria");
@@ -148,8 +139,9 @@ public class ventana {
 	private void registrar (String nombre,String precio,String codigo,String cantidad,String categoria) {
 		Producto uno = new Producto(codigo,nombre,categoria,Double.parseDouble(precio),Integer.parseInt(cantidad));
 		
-		String query = " insert into producto (idProducto,nombre,cantidad,precio,categoria)" + " values (" + uno.getCodigo() + "," + uno.getNombre() + "," + uno.getCantidad() + "," + uno.getPrecio() + "," + uno.getCategoria() + ");";
+		String query = " insert into producto (idProducto,nombre,cantidad,precio,categoria)" + " values (" + uno.getCodigo() + ",'" + uno.getNombre() + "'," + uno.getCantidad() + "," + uno.getPrecio() + ",'" + uno.getCategoria() + "');";
 		System.out.println(query);
+		
 		con.prueba(query);
 	}
 }
