@@ -13,10 +13,14 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.SystemColor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JTextField;
 
 public class ventana {
 
 	private JFrame frmHeladeriaYConfiteria;
+	private JTextField textCodigo;
 
 	/**
 	 * Launch the application.
@@ -57,46 +61,65 @@ public class ventana {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frmHeladeriaYConfiteria.getContentPane().add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Nombre:");
-		lblNewLabel_1.setBounds(10, 39, 69, 20);
-		frmHeladeriaYConfiteria.getContentPane().add(lblNewLabel_1);
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setBounds(10, 39, 69, 20);
+		frmHeladeriaYConfiteria.getContentPane().add(lblNombre);
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
-		formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
-		formattedTextField.setBounds(79, 41, 109, 20);
-		frmHeladeriaYConfiteria.getContentPane().add(formattedTextField);
+		JFormattedTextField textNombre = new JFormattedTextField();
+		textNombre.setHorizontalAlignment(SwingConstants.CENTER);
+		textNombre.setBounds(79, 41, 109, 20);
+		frmHeladeriaYConfiteria.getContentPane().add(textNombre);
 		
-		JLabel lblNewLabel_2 = new JLabel("Cantidad:");
-		lblNewLabel_2.setBounds(203, 39, 69, 20);
-		frmHeladeriaYConfiteria.getContentPane().add(lblNewLabel_2);
+		JLabel lblCantidad = new JLabel("Cantidad:");
+		lblCantidad.setBounds(203, 39, 69, 20);
+		frmHeladeriaYConfiteria.getContentPane().add(lblCantidad);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		spinner.setBounds(276, 36, 32, 26);
-		frmHeladeriaYConfiteria.getContentPane().add(spinner);
+		JSpinner textCantidad = new JSpinner();
+		textCantidad.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		textCantidad.setBounds(276, 36, 32, 26);
+		frmHeladeriaYConfiteria.getContentPane().add(textCantidad);
 		
-		JLabel lblNewLabel_3 = new JLabel("Precio:");
-		lblNewLabel_3.setBounds(10, 75, 69, 20);
-		frmHeladeriaYConfiteria.getContentPane().add(lblNewLabel_3);
+		JLabel lblPrecio = new JLabel("Precio:");
+		lblPrecio.setBounds(10, 75, 69, 20);
+		frmHeladeriaYConfiteria.getContentPane().add(lblPrecio);
 		
-		JFormattedTextField formattedTextField_1 = new JFormattedTextField();
-		formattedTextField_1.setBounds(79, 75, 63, 20);
-		frmHeladeriaYConfiteria.getContentPane().add(formattedTextField_1);
+		JFormattedTextField textPrecio = new JFormattedTextField();
+		textPrecio.setBounds(79, 75, 63, 20);
+		frmHeladeriaYConfiteria.getContentPane().add(textPrecio);
 		
-		JLabel lblNewLabel_4 = new JLabel("Categoria:");
-		lblNewLabel_4.setBounds(10, 111, 82, 20);
-		frmHeladeriaYConfiteria.getContentPane().add(lblNewLabel_4);
+		JLabel lblCategoria = new JLabel("Categoria:");
+		lblCategoria.setBounds(10, 155, 82, 20);
+		frmHeladeriaYConfiteria.getContentPane().add(lblCategoria);
 		
-		JButton btnNewButton = new JButton("Registrar");
-		btnNewButton.setBounds(145, 169, 115, 29);
-		frmHeladeriaYConfiteria.getContentPane().add(btnNewButton);
+		JComboBox comboCategoria = new JComboBox();
+		comboCategoria.setBackground(SystemColor.activeCaption);
+		comboCategoria.setMaximumRowCount(2);
+		comboCategoria.setModel(new DefaultComboBoxModel(new String[] {"Heladeria", "Cafeteria"}));
+		comboCategoria.setSelectedIndex(1);
+		comboCategoria.setBounds(79, 152, 99, 26);
+		frmHeladeriaYConfiteria.getContentPane().add(comboCategoria);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBackground(SystemColor.activeCaption);
-		comboBox.setMaximumRowCount(2);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Heladeria", "Cafeteria"}));
-		comboBox.setSelectedIndex(1);
-		comboBox.setBounds(89, 111, 99, 26);
-		frmHeladeriaYConfiteria.getContentPane().add(comboBox);
+		JButton btnRegistrar = new JButton("Registrar");
+		btnRegistrar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				registrar(textNombre.getText(),textPrecio.getText(),textCantidad.getValue().toString(),comboCategoria.getSelectedItem().toString());
+			}
+		});
+		btnRegistrar.setBounds(146, 203, 115, 29);
+		frmHeladeriaYConfiteria.getContentPane().add(btnRegistrar);
+		
+		textCodigo = new JTextField();
+		textCodigo.setBounds(79, 111, 86, 20);
+		frmHeladeriaYConfiteria.getContentPane().add(textCodigo);
+		textCodigo.setColumns(10);
+		
+		JLabel lblCodigo = new JLabel("Codigo");
+		lblCodigo.setBounds(10, 114, 46, 14);
+		frmHeladeriaYConfiteria.getContentPane().add(lblCodigo);
+	}
+	
+	private void registrar (String nombre,String precio,String cantidad,String categoria) {
+		System.out.println(nombre + precio + cantidad + categoria);
 	}
 }
