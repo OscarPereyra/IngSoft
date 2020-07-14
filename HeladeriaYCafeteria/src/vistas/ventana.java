@@ -112,7 +112,7 @@ public class ventana {
 		JTextField textPrecio = new JTextField();
 		textPrecio.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent arg0) {
+			public void keyReleased(KeyEvent arg0) {
 				try {
 					Double d=Double.parseDouble(textPrecio.getText());
 					lblErrorPrecio.setText("");
@@ -142,6 +142,6 @@ public class ventana {
 		String query = " insert into producto (idProducto,nombre,cantidad,precio,categoria)" + " values (" + uno.getCodigo() + ",'" + uno.getNombre() + "'," + uno.getCantidad() + "," + uno.getPrecio() + ",'" + uno.getCategoria() + "');";
 		System.out.println(query);
 		
-		con.prueba(query);
+		con.creacion(query);
 	}
 }
