@@ -86,27 +86,27 @@ public class BaseProductos {
 		}
 	}
 	public boolean esProducto(int codigo) throws SQLException {
-		ResultSet rs = con.consulta("select cantidad from producto where idProducto = "  + codigo+";");		
+		ResultSet rs = consulta("select cantidad from producto where idProducto = "  + codigo+";");		
 		return  rs.next();
 	}
 	public void insertarProducto(Producto uno) {
 		String query = " insert into producto (idProducto,nombre,cantidad,precio,categoria)" + " values (" + uno.getCodigo() + ",'" + uno.getNombre() + "'," + uno.getCantidad() + "," + uno.getPrecio() + ",'" + uno.getCategoria() + "');";
 		//System.out.println(query);
-		con.actualizacion(query);
+		actualizacion(query);
 	}
 	public void actualizarProducto(Producto uno) {
 		String query = "update producto set cantidad = "+ uno.getCantidad() +" , precio = "+ uno.getPrecio() +" where idProducto ="+ uno.getCodigo() +";";
 		//System.out.println(query);
-		con.actualizacion(query);
+		actualizacion(query);
 	}
 	public void actualizarCantidadProducto(int codigo, int cantidad) {
 		String query = "update producto set cantidad = "+ cantidad +" where idProducto ="+ codigo +";";
 		//System.out.println(query);
-		con.actualizacion(query);
+		actualizacion(query);
 	}
 	public int cantidadProducto(int codigo) {
 		String queryCantidad= "select cantidad from producto where idProducto = "  + codigo+";";
-		ResultSet cantidadActual = con.consulta(queryCantidad);
+		ResultSet cantidadActual = consulta(queryCantidad);
 		try {
 			return cantidadActual.getInt(1);
 		} catch (SQLException e) {
