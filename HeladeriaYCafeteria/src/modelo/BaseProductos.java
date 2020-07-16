@@ -7,7 +7,6 @@ import java.sql.Statement;
 import com.mysql.jdbc.PreparedStatement;
 
 public class BaseProductos {
-	private BaseProductos con = new BaseProductos();
 
 	public ResultSet consulta(String query) {
 		Conexion conexion = new Conexion();
