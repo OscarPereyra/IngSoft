@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import modelo.Producto;
-import modelo.TestConexcion;
+import modelo.BaseProductos;
 
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
@@ -20,10 +20,10 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import java.awt.Color;
 
-public class vender {
+public class actualizar {
 
 	private JFrame frame;
-	private TestConexcion con = new TestConexcion();
+	private BaseProductos con = new BaseProductos();
 
 
 	/**
@@ -33,7 +33,7 @@ public class vender {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					vender window = new vender();
+					actualizar window = new actualizar();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +45,7 @@ public class vender {
 	/**
 	 * Create the application.
 	 */
-	public vender() {
+	public actualizar() {
 		initialize();
 	}
 
@@ -102,7 +102,7 @@ public class vender {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					venderProducto(Integer.parseInt(TextCodigo.getText()),Integer.parseInt(textCantidad.getText()));
+					actualizarProducto(Integer.parseInt(TextCodigo.getText()),Integer.parseInt(textCantidad.getText()));
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 					lblErrorCantidad.setText("Formato Invalido");
@@ -118,17 +118,14 @@ public class vender {
 		
 	}
 
-	private void venderProducto (int codigo,int cantidad) throws SQLException {
-		String queryCantActual = "select cantidad from bd_cyh.producto where idProducto = "  + codigo+";";
-		ResultSet cantidadActual = con.update(queryCantActual);
-		int resultCant = cantidadActual.getInt(1) - cantidad;
-		if (resultCant >= cantidad){
-			con.update("update bd_cyh.producto set cantidad = " + resultCant + " where idProducto=" + codigo + ";"); 
+	private void actualizarProducto (int codigo,int cantidad) throws SQLException {
+		if(con.esProducto(codigo) && ((con.cantidadProducto(codigo)>=cantidad) )) {
+			con.actualizarCantidadProducto(codigo,cantidad);
+		}
+		if(con.esProducto(codigo)) {
+			System.out.println("No existe el produco");
 		}else {
 			System.out.println("No hay stock suficiente");
 		}
-		String queryUpdateCant = "update bd_cyh.producto set cantidad = " + cantidad + " where idProducto=" + codigo + ";";  
-		System.out.println(queryUpdateCant);
-		con.creacion(queryUpdateCant);
 	}
 }

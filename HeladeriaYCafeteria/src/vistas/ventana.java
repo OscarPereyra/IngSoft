@@ -2,7 +2,7 @@ package vistas;
 
 import java.awt.EventQueue;
 import modelo.Producto;
-import modelo.TestConexcion;
+import modelo.BaseProductos;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,6 +20,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+
 import javax.swing.JTextField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -29,7 +31,7 @@ public class ventana {
 
 	private JFrame frmHeladeriaYConfiteria;
 	private JTextField textCodigo;
-	private TestConexcion con = new TestConexcion();
+	private BaseProductos con = new BaseProductos();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -129,19 +131,31 @@ public class ventana {
 		btnRegistrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				registrar(textNombre.getText(),textPrecio.getText(),textCodigo.getText(),textCantidad.getValue().toString(),comboCategoria.getSelectedItem().toString());
+				try {
+					if(con.esProducto(Integer.parseInt(textCodigo.getText())))
+					{
+						actualizarInformacion(Double.parseDouble(textPrecio.getText()),textCodigo.getText(),Integer.parseInt(textCantidad.getValue().toString()));
+					}else{
+						registrarNuevoProducto(textNombre.getText(),textPrecio.getText(),textCodigo.getText(),textCantidad.getValue().toString(),comboCategoria.getSelectedItem().toString());
+					}
+						
+				} catch (NumberFormatException | SQLException e) {
+					e.printStackTrace();
+				}
+				
 			}
 		});
 		btnRegistrar.setBounds(146, 203, 115, 29);
 		frmHeladeriaYConfiteria.getContentPane().add(btnRegistrar);
 	}
 	
-	private void registrar (String nombre,String precio,String codigo,String cantidad,String categoria) {
+	protected void actualizarInformacion(Double precio,String codigo,int cantidad) {
+		Producto uno = new Producto(codigo," "," ",precio,cantidad);
+		con.actualizarProducto(uno);
+	}
+
+	private void registrarNuevoProducto (String nombre,String precio,String codigo,String cantidad,String categoria) {
 		Producto uno = new Producto(codigo,nombre,categoria,Double.parseDouble(precio),Integer.parseInt(cantidad));
-		
-		String query = " insert into producto (idProducto,nombre,cantidad,precio,categoria)" + " values (" + uno.getCodigo() + ",'" + uno.getNombre() + "'," + uno.getCantidad() + "," + uno.getPrecio() + ",'" + uno.getCategoria() + "');";
-		System.out.println(query);
-		
-		con.creacion(query);
+		con.insertarProducto(uno);
 	}
 }
