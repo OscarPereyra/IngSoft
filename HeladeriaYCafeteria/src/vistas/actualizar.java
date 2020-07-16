@@ -119,13 +119,13 @@ public class actualizar {
 	}
 
 	private void actualizarProducto (int codigo,int cantidad) throws SQLException {
-		if(con.esProducto(codigo) && ((con.cantidadProducto(codigo)>=cantidad) )) {
-			con.actualizarCantidadProducto(codigo,cantidad);
-		}
-		if(con.esProducto(codigo)) {
+		
+		if(!con.esProducto(codigo)) {
 			System.out.println("No existe el produco");
-		}else {
+		}else if((!(con.cantidadProducto(codigo)>=cantidad) )) {
 			System.out.println("No hay stock suficiente");
+		}else {
+			con.actualizarCantidadProducto(codigo,cantidad);
 		}
 	}
 }
