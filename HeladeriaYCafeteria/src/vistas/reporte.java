@@ -9,20 +9,24 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.BaseProductos;
+import modelo.Producto;
 
 import javax.swing.JTable;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.JScrollPane;
+import javax.swing.JLabel;
 
 public class reporte extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
 	private BaseProductos db = new BaseProductos();
+	private int montoTotal=0;
 	/**
 	 * Launch the application.
 	 */
@@ -48,35 +52,49 @@ public class reporte extends JFrame {
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);		
+		setContentPane(contentPane);
+		JTable tableReporte = new JTable();
+		tableReporte.setVisible(true);
 		contentPane.setLayout(null);
+		
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 43, 428, 170);
+		contentPane.add(scrollPane);
+		scrollPane.setViewportView(tableReporte);
+		
+		JLabel lblReporte = new JLabel("Reporte");
+		lblReporte.setBounds(175, 7, 69, 26);
+		contentPane.add(lblReporte);
+		
+		JLabel lblTotal = new JLabel("Total:");
+		lblTotal.setBounds(104, 218, 69, 20);
+		contentPane.add(lblTotal);
+		
+		JLabel lblTotalNum = new JLabel("");
+		lblTotalNum.setBounds(151, 218, 69, 20);
+		contentPane.add(lblTotalNum);
+		
+		
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
+				
 				ResultSet ultimosIngresos = db.obtenerUltimosIngresados();
-				DefaultTableModel modelo = new DefaultTableModel();
-				table = new JTable(modelo);
-				contentPane.add(table, BorderLayout.CENTER);
-				modelo.addColumn("CODIGO");
-		        modelo.addColumn("NOMBRE");
-		        modelo.addColumn("CANTIDAD");
-		        modelo.addColumn("PRECIO");
-		        modelo.addColumn("CATEGORIA");
-		        modelo.addColumn("FECHA DE INGRESO");
+				ArrayList<ArrayList<String>> Registros= new ArrayList<ArrayList<String>>();
 		        try {
+
 					while(ultimosIngresos.next()){
-						System.out.println(ultimosIngresos.getInt(1));
-					    Object []ob=new Object[6];
-					    ob[0]=(ultimosIngresos.getInt(1));
-					    ob[1]=(ultimosIngresos.getString(2));
-					    ob[2]=(ultimosIngresos.getString(3));
-					    ob[3]=(ultimosIngresos.getString(4));
-					    ob[4]=(ultimosIngresos.getString(5));
-					    ob[5]=(ultimosIngresos.getString(6));
-					    modelo.addRow(ob);
-					    ob=null;
-					 }
+						ArrayList<String> Registro= new ArrayList<String>();
+						Registro.add(Integer.toString(ultimosIngresos.getInt(1)));
+						Registro.add(ultimosIngresos.getString(2));
+						Registro.add(Integer.toString(ultimosIngresos.getInt(3)));
+						Registro.add(Double.toString(ultimosIngresos.getDouble(4)));
+						Registro.add(Double.toString(ultimosIngresos.getInt(3)*ultimosIngresos.getDouble(4)));
+						Registros.add(Registro);
+						montoTotal+=ultimosIngresos.getInt(3)*ultimosIngresos.getDouble(4);
+					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}         
@@ -85,6 +103,13 @@ public class reporte extends JFrame {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
+		        reporteTableModel mod = new reporteTableModel(Registros);
+				tableReporte.setModel(mod);
+				tableReporte.revalidate();
+		        tableReporte.repaint();
+		        tableReporte.clearSelection();
+		        mod.fireTableDataChanged();
+		        lblTotalNum.setText(Integer.toString(montoTotal));
 			}
 		});
 		
