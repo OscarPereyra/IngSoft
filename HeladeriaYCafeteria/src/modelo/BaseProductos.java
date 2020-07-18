@@ -65,10 +65,8 @@ public class BaseProductos {
 				e2.printStackTrace();
 			}
 		}
-
 		return rs;
 	}
-
 	public void actualizacion(String query) {
 		Conexion conexion = new Conexion();
 		Connection cn = null;
@@ -90,12 +88,12 @@ public class BaseProductos {
 		return  rs.next();
 	}
 	public void insertarProducto(Producto uno) {
-		String query = " insert into producto (idProducto,nombre,cantidad,precio,categoria)" + " values (" + uno.getCodigo() + ",'" + uno.getNombre() + "'," + uno.getCantidad() + "," + uno.getPrecio() + ",'" + uno.getCategoria() + "');";
+		String query = " insert into producto (idProducto,nombre,cantidad,precio,categoria,ultima_fecha_ingreso)" + " values (" + uno.getCodigo() + ",'" + uno.getNombre() + "'," + uno.getCantidad() + "," + uno.getPrecio() + ",'" + uno.getCategoria() + ", NOW()');";
 		//System.out.println(query);
 		actualizacion(query);
 	}
 	public void actualizarProducto(Producto uno) {
-		String query = "update producto set cantidad = "+ uno.getCantidad() +" , precio = "+ uno.getPrecio() +" where idProducto ="+ uno.getCodigo() +";";
+		String query = "update producto set cantidad = "+ uno.getCantidad() +" , precio = "+ uno.getPrecio() +", ultima_fecha_ingreso = NOW() where idProducto ="+ uno.getCodigo() +";";
 		//System.out.println(query);
 		actualizacion(query);
 	}
@@ -119,6 +117,29 @@ public class BaseProductos {
 		ResultSet ultimosIngresos = consulta(queryUltimosIngresos);
 		return ultimosIngresos;		
 	}
-	
-	
+	public ResultSet obtenerUltimosIngresadosPorCategoria(String categoria) {
+		String queryUltimosIngresos= "select * from productos where (ultima_fecha_ingreso = max(ultima_fecha_ingreso)) and categoria = "+ categoria +" ;";
+		ResultSet ultimosIngresos = consulta(queryUltimosIngresos);
+		return ultimosIngresos;		
+	}
+	public int costoTotal() {
+		String queryCosto= "select sum(precio) from productos;";
+		ResultSet costo = consulta(queryCosto);
+		try {
+			return costo.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	public int costoTotalUltimosIngresos() {
+		String queryCosto= "select sum(precio) from productos where ultima_fecha_ingreso = max(ultima_fecha_ingreso);";
+		ResultSet costo = consulta(queryCosto);
+		try {
+			return costo.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }	
