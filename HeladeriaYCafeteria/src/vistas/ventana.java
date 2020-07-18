@@ -26,12 +26,14 @@ import javax.swing.JTextField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ventana {
 
 	private JFrame frmHeladeriaYConfiteria;
 	private JTextField textCodigo;
-	private BaseProductos con = new BaseProductos();
+	private BaseProductos db = new BaseProductos();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -128,11 +130,15 @@ public class ventana {
 		frmHeladeriaYConfiteria.getContentPane().add(textPrecio);
 		
 		JButton btnRegistrar = new JButton("Registrar");
+		btnRegistrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnRegistrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					if(con.esProducto(Integer.parseInt(textCodigo.getText())))
+					if(db.esProducto(Integer.parseInt(textCodigo.getText())))
 					{
 						actualizarInformacion(Double.parseDouble(textPrecio.getText()),textCodigo.getText(),Integer.parseInt(textCantidad.getValue().toString()));
 					}else{
@@ -145,17 +151,28 @@ public class ventana {
 				
 			}
 		});
-		btnRegistrar.setBounds(146, 203, 115, 29);
+		btnRegistrar.setBounds(48, 203, 129, 29);
 		frmHeladeriaYConfiteria.getContentPane().add(btnRegistrar);
+		
+		JButton btnGenerarReporte = new JButton("Generar reporte");
+		btnGenerarReporte.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				reporte ventanaReporte = new reporte();
+				ventanaReporte.setVisible(true);
+			}
+		});
+		btnGenerarReporte.setBounds(240, 203, 151, 29);
+		frmHeladeriaYConfiteria.getContentPane().add(btnGenerarReporte);
 	}
 	
 	protected void actualizarInformacion(Double precio,String codigo,int cantidad) {
 		Producto uno = new Producto(codigo," "," ",precio,cantidad);
-		con.actualizarProducto(uno);
+		db.actualizarProducto(uno);
 	}
 
 	private void registrarNuevoProducto (String nombre,String precio,String codigo,String cantidad,String categoria) {
 		Producto uno = new Producto(codigo,nombre,categoria,Double.parseDouble(precio),Integer.parseInt(cantidad));
-		con.insertarProducto(uno);
+		db.insertarProducto(uno);
 	}
 }

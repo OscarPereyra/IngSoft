@@ -58,7 +58,7 @@ public class actualizar {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Venta de producto");
+		JLabel lblNewLabel = new JLabel("Actualizar deposito");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setBounds(126, 16, 225, 32);
 		frame.getContentPane().add(lblNewLabel);
@@ -97,8 +97,8 @@ public class actualizar {
 		textCantidad.setBounds(275, 58, 76, 26);
 		frame.getContentPane().add(textCantidad);
 		
-		JButton btnVender = new JButton("Vender");
-		btnVender.addMouseListener(new MouseAdapter() {
+		JButton btnActualizar = new JButton("Actualizar");
+		btnActualizar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
@@ -112,8 +112,8 @@ public class actualizar {
 				}
 			}
 		});
-		btnVender.setBounds(140, 145, 115, 29);
-		frame.getContentPane().add(btnVender);
+		btnActualizar.setBounds(140, 145, 115, 29);
+		frame.getContentPane().add(btnActualizar);
 				
 		
 	}

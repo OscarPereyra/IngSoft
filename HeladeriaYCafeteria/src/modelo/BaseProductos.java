@@ -110,10 +110,14 @@ public class BaseProductos {
 		try {
 			return cantidadActual.getInt(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	public ResultSet obtenerUltimosIngresados() {
+		String queryUltimosIngresos= "select * from productos where ultima_fecha_ingreso = max(ultima_fecha_ingreso);";
+		ResultSet ultimosIngresos = consulta(queryUltimosIngresos);
+		return ultimosIngresos;		
 	}
 	
 	
