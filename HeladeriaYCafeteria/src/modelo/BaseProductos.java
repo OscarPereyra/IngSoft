@@ -87,6 +87,11 @@ public class BaseProductos {
 		}
 		return 0;
 	}
+	public String obtenerFechaReciente() throws SQLException {
+		String queryFechaReciente= "select max(ultima_fecha_ingreso) from bd_cyh.producto ;";
+		ResultSet fechareciente = consulta(queryFechaReciente);		
+		return fechareciente.getString(1);
+	}
 	public void actualizarProducto(Producto uno) {
 		int cantProdTotal= uno.getCantidad() + cantidadProducto(Integer.parseInt(uno.getCodigo()));
 		String query = "update bd_cyh.producto set cantidad = "+ cantProdTotal +" , precio = "+ uno.getPrecio() +", ultima_fecha_ingreso = NOW() where idProducto ="+ uno.getCodigo() +";";
@@ -107,7 +112,7 @@ public class BaseProductos {
 		return ultimosIngresos;		
 	}
 	public ResultSet obtenerUltimosIngresadosPorCategoria(String categoria) {
-		String queryUltimosIngresos= "select * from bd_cyh.producto where (ultima_fecha_ingreso = max(ultima_fecha_ingreso)) and categoria = "+ categoria +" ;";
+		String queryUltimosIngresos= "select * from bd_cyh.producto where (ultima_fecha_ingreso = curdate()) and categoria = "+ categoria +" ;";
 		ResultSet ultimosIngresos = consulta(queryUltimosIngresos);
 		return ultimosIngresos;		
 	}
