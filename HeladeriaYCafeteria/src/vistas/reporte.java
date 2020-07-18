@@ -15,6 +15,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class reporte extends JFrame {
 
@@ -46,8 +48,8 @@ public class reporte extends JFrame {
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);		
+		contentPane.setLayout(null);
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -64,6 +66,7 @@ public class reporte extends JFrame {
 		        modelo.addColumn("FECHA DE INGRESO");
 		        try {
 					while(ultimosIngresos.next()){
+						System.out.println(ultimosIngresos.getInt(1));
 					    Object []ob=new Object[6];
 					    ob[0]=(ultimosIngresos.getInt(1));
 					    ob[1]=(ultimosIngresos.getString(2));
@@ -86,5 +89,4 @@ public class reporte extends JFrame {
 		});
 		
 	}
-
 }

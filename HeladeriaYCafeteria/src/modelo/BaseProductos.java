@@ -16,28 +16,12 @@ public class BaseProductos {
 		try {
 			cn = conexion.conectar();
 			stm = cn.createStatement();	
-			rs = stm.executeQuery(query);			
-			//System.out.println(rs.getInt(1));
+			rs = stm.executeQuery(query);
 			return rs;
 		} catch (SQLException e) {
-		}finally {
-			try {
-				if (rs != null) {
-					rs.close();	
-				}
-				if (stm != null) {
-					stm.close();	
-				}
-				if (cn != null) {
-					cn.close();	
-				}
-				
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
-		return null;	
+		}			return null;
 	}	
+	
 	public ResultSet creacionOriginal(String query) {
 		Conexion conexion = new Conexion();
 		Connection cn = null;
@@ -84,46 +68,51 @@ public class BaseProductos {
 		}
 	}
 	public boolean esProducto(int codigo) throws SQLException {
-		ResultSet rs = consulta("select cantidad from producto where idProducto = "  + codigo+";");		
+		System.out.println("Entra en esProducto");
+		ResultSet rs = consulta("select cantidad from bd_cyh.producto where idProducto = "  + codigo+";");
 		return  rs.next();
 	}
 	public void insertarProducto(Producto uno) {
-		String query = " insert into producto (idProducto,nombre,cantidad,precio,categoria,ultima_fecha_ingreso)" + " values (" + uno.getCodigo() + ",'" + uno.getNombre() + "'," + uno.getCantidad() + "," + uno.getPrecio() + ",'" + uno.getCategoria() + ", NOW()');";
-		//System.out.println(query);
-		actualizacion(query);
-	}
-	public void actualizarProducto(Producto uno) {
-		String query = "update producto set cantidad = "+ uno.getCantidad() +" , precio = "+ uno.getPrecio() +", ultima_fecha_ingreso = NOW() where idProducto ="+ uno.getCodigo() +";";
-		//System.out.println(query);
-		actualizacion(query);
-	}
-	public void actualizarCantidadProducto(int codigo, int cantidad) {
-		String query = "update producto set cantidad = "+ cantidad +" where idProducto ="+ codigo +";";
+		String query = " insert into bd_cyh.producto (idProducto,nombre,cantidad,precio,categoria,ultima_fecha_ingreso)" + " values (" + uno.getCodigo() + ",'" + uno.getNombre() + "'," + uno.getCantidad() + "," + uno.getPrecio() + ",'" + uno.getCategoria() + "', NOW());";
 		//System.out.println(query);
 		actualizacion(query);
 	}
 	public int cantidadProducto(int codigo) {
-		String queryCantidad= "select cantidad from producto where idProducto = "  + codigo+";";
+		String queryCantidad= "select cantidad from bd_cyh.producto where idProducto = "  + codigo+";";
 		ResultSet cantidadActual = consulta(queryCantidad);
 		try {
+			cantidadActual.next();
 			return cantidadActual.getInt(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
+	public void actualizarProducto(Producto uno) {
+		int cantProdTotal= uno.getCantidad() + cantidadProducto(Integer.parseInt(uno.getCodigo()));
+		String query = "update bd_cyh.producto set cantidad = "+ cantProdTotal +" , precio = "+ uno.getPrecio() +", ultima_fecha_ingreso = NOW() where idProducto ="+ uno.getCodigo() +";";
+		//System.out.println(query);
+		actualizacion(query);
+	}
+	public void actualizarCantidadProducto(int codigo, int cantidad) {
+		int cantProdTotal= cantidadProducto(codigo)-cantidad ;
+		String query = "update bd_cyh.producto set cantidad = "+ cantProdTotal +" where idProducto ="+ codigo +";";
+		//System.out.println(query);
+		actualizacion(query);
+	}
+
 	public ResultSet obtenerUltimosIngresados() {
-		String queryUltimosIngresos= "select * from productos where ultima_fecha_ingreso = max(ultima_fecha_ingreso);";
+		String queryUltimosIngresos= "select * from bd_cyh.productos where ultima_fecha_ingreso = max(ultima_fecha_ingreso);";
 		ResultSet ultimosIngresos = consulta(queryUltimosIngresos);
 		return ultimosIngresos;		
 	}
 	public ResultSet obtenerUltimosIngresadosPorCategoria(String categoria) {
-		String queryUltimosIngresos= "select * from productos where (ultima_fecha_ingreso = max(ultima_fecha_ingreso)) and categoria = "+ categoria +" ;";
+		String queryUltimosIngresos= "select * from bd_cyh.productos where (ultima_fecha_ingreso = max(ultima_fecha_ingreso)) and categoria = "+ categoria +" ;";
 		ResultSet ultimosIngresos = consulta(queryUltimosIngresos);
 		return ultimosIngresos;		
 	}
 	public int costoTotal() {
-		String queryCosto= "select sum(precio) from productos;";
+		String queryCosto= "select sum(precio) from bd_cyh.productos;";
 		ResultSet costo = consulta(queryCosto);
 		try {
 			return costo.getInt(1);
@@ -133,7 +122,7 @@ public class BaseProductos {
 		return 0;
 	}
 	public int costoTotalUltimosIngresos() {
-		String queryCosto= "select sum(precio) from productos where ultima_fecha_ingreso = max(ultima_fecha_ingreso);";
+		String queryCosto= "select sum(precio) from bd_cyh.productos where ultima_fecha_ingreso = max(ultima_fecha_ingreso);";
 		ResultSet costo = consulta(queryCosto);
 		try {
 			return costo.getInt(1);

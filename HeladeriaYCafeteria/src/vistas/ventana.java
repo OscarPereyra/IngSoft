@@ -138,7 +138,7 @@ public class ventana {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					if(db.esProducto(Integer.parseInt(textCodigo.getText())))
+						if(db.esProducto(Integer.parseInt(textCodigo.getText())))
 					{
 						actualizarInformacion(Double.parseDouble(textPrecio.getText()),textCodigo.getText(),Integer.parseInt(textCantidad.getValue().toString()));
 					}else{

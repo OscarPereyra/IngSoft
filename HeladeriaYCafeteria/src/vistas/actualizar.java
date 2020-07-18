@@ -128,4 +128,5 @@ public class actualizar {
 			con.actualizarCantidadProducto(codigo,cantidad);
 		}
 	}
+	
 }
