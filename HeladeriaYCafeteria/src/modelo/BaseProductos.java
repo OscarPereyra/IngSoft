@@ -118,16 +118,6 @@ public class BaseProductos {
 		ResultSet ultimosIngresos = consulta(queryUltimosIngresos);
 		return ultimosIngresos;		
 	}
-	public int costoTotal() {
-		String queryCosto= "select sum(precio) from bd_cyh.producto;";
-		ResultSet costo = consulta(queryCosto);
-		try {
-			return costo.getInt(1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
 	public int costoTotalUltimosIngresos() {
 		String queryCosto= "select sum(precio) from bd_cyh.producto where ultima_fecha_ingreso = max(ultima_fecha_ingreso);";
 		ResultSet costo = consulta(queryCosto);
