@@ -107,12 +107,14 @@ public class BaseProductos {
 
 	public ResultSet obtenerUltimosIngresados() {
 		String queryUltimosIngresos= "select * from bd_cyh.producto where ultima_fecha_ingreso = curdate();";
+		// String queryUltimosIngresos= "select * from bd_cyh.producto where ultima_fecha_ingreso = "+ obtenerFechaReciente() +";";
 		ResultSet ultimosIngresos = consulta(queryUltimosIngresos);
 		
 		return ultimosIngresos;		
 	}
 	public ResultSet obtenerUltimosIngresadosPorCategoria(String categoria) {
 		String queryUltimosIngresos= "select * from bd_cyh.producto where (ultima_fecha_ingreso = curdate()) and categoria = "+ categoria +" ;";
+		//String queryUltimosIngresos= "select * from bd_cyh.producto where (ultima_fecha_ingreso = "+ obtenerFechaReciente() +") and categoria = "+ categoria +" ;";
 		ResultSet ultimosIngresos = consulta(queryUltimosIngresos);
 		return ultimosIngresos;		
 	}
